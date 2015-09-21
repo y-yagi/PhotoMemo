@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,11 +28,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yaginuma.photomemo.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import models.Photo;
+import utils.LogUtil;
+import utils.RealmBuilder;
 
 
 /**
@@ -41,11 +50,17 @@ public class PhotoRegisterActivity extends AppCompatActivity {
     private TextView mMemoView;
     private View mProgressView;
     private View mRegisterFormView;
+    private Realm mRealm;
+
+    private static final String TAG = LogUtil.makeLogTag(PhotoRegisterActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        RealmConfiguration realmConfiguration = RealmBuilder.getRealmConfiguration(this);
+        mRealm = RealmBuilder.getRealmInstance(realmConfiguration);
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -76,6 +91,24 @@ public class PhotoRegisterActivity extends AppCompatActivity {
 
     private void attemptRegister() {
         showProgress(true);
+        String memo = ((TextView)findViewById(R.id.memo)).getText().toString();
+        String imageUri = findViewById(R.id.imageView).getTag().toString();
+        Photo photo;
+
+        try {
+            photo = new Photo.Builder().build(imageUri, memo);
+        } catch(IOException exception) {
+            showProgress(false);
+            Log.d(TAG, exception.getMessage());
+            Toast.makeText(this, "画像ファイルが見つかりません", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        mRealm.beginTransaction();
+        mRealm.copyToRealm(photo);
+        mRealm.commitTransaction();
+        showProgress(false);
+        Toast.makeText(this, "データの登録が完了しました", Toast.LENGTH_LONG).show();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -116,6 +149,7 @@ public class PhotoRegisterActivity extends AppCompatActivity {
         if (imageUri != null) {
             ImageView imageView = (ImageView)findViewById(R.id.imageView);
             imageView.setImageURI(imageUri);
+            imageView.setTag(imageUri);
         }
     }
 
