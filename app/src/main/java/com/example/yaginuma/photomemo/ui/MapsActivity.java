@@ -1,5 +1,7 @@
 package com.example.yaginuma.photomemo.ui;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -60,8 +62,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for(Photo photo : photos){
             latLng = new LatLng(photo.getLatitude(), photo.getLongitude());
+            Bitmap image = BitmapFactory.decodeFile(photo.getImagePath());
+            Bitmap resized = Bitmap.createScaledBitmap(image, 128, 128, true);
             mMap.addMarker(new MarkerOptions().position(latLng)
-                    .title(photo.getMemo())
+                            .title(photo.getMemo())
+                            .icon(BitmapDescriptorFactory.fromBitmap(resized))
             );
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mStartPosition, DEFAULT_ZOOM));
