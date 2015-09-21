@@ -23,9 +23,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private Realm mRealm;
-    private LatLng mStartPosition;
 
-    public static final int DEFAULT_ZOOM = 10;
+    private static final LatLng DEFAULT_POSITION = new LatLng(35.680795, 139.76721);
+    private static final int DEFAULT_ZOOM = 10;
     private static final String TAG = LogUtil.makeLogTag(MapsActivity.class);
 
     @Override
@@ -40,7 +40,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        mStartPosition = new LatLng(35.680795, 139.76721);
     }
 
 
@@ -69,6 +68,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .icon(BitmapDescriptorFactory.fromBitmap(resized))
             );
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mStartPosition, DEFAULT_ZOOM));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_POSITION, DEFAULT_ZOOM));
     }
 }
