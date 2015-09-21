@@ -1,5 +1,6 @@
 package com.example.yaginuma.photomemo.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,10 @@ import android.view.MenuItem;
 
 import com.example.yaginuma.photomemo.R;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import utils.RealmBuilder;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -24,6 +29,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // TODO: debug only
+//        Realm.deleteRealm(RealmBuilder.getRealmConfiguration(this));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +91,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_map) {
-            // Handle the camera action
+            Intent intent = new Intent(this, MapsActivity.class);
+            startActivity(intent);
+            return true;
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_share) {

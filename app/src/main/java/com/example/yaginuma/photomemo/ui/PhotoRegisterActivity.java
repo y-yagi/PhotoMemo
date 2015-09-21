@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.media.ExifInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -40,6 +41,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import models.Photo;
 import utils.LogUtil;
+import utils.PathUtil;
 import utils.RealmBuilder;
 
 
@@ -51,6 +53,7 @@ public class PhotoRegisterActivity extends AppCompatActivity {
     private View mProgressView;
     private View mRegisterFormView;
     private Realm mRealm;
+    private String mImagePath;
 
     private static final String TAG = LogUtil.makeLogTag(PhotoRegisterActivity.class);
 
@@ -92,11 +95,10 @@ public class PhotoRegisterActivity extends AppCompatActivity {
     private void attemptRegister() {
         showProgress(true);
         String memo = ((TextView)findViewById(R.id.memo)).getText().toString();
-        String imageUri = findViewById(R.id.imageView).getTag().toString();
         Photo photo;
 
         try {
-            photo = new Photo.Builder().build(imageUri, memo);
+            photo = new Photo.Builder().build(mImagePath, memo);
         } catch(IOException exception) {
             showProgress(false);
             Log.d(TAG, exception.getMessage());
@@ -145,12 +147,10 @@ public class PhotoRegisterActivity extends AppCompatActivity {
     }
 
     private void handleSendImage(Intent intent) {
-        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-        if (imageUri != null) {
-            ImageView imageView = (ImageView)findViewById(R.id.imageView);
-            imageView.setImageURI(imageUri);
-            imageView.setTag(imageUri);
-        }
+        Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        imageView.setImageURI(imageUri);
+        mImagePath = PathUtil.getPath(this,imageUri);
     }
 
     private void handleSendMultipleImages(Intent intent) {

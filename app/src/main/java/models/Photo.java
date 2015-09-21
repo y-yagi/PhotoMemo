@@ -1,22 +1,18 @@
 package models;
 
 import android.media.ExifInterface;
-
 import java.io.IOException;
-import java.util.Date;
-
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by yaginuma on 15/09/21.
  */
 public class Photo extends RealmObject {
     private String memo;
-    private String imageUri;
+    private String imagePath;
     private String date;
-    private String longitude;
-    private String latitude;
+    private float longitude;
+    private float latitude;
 
     public String getMemo() {
         return memo;
@@ -26,27 +22,27 @@ public class Photo extends RealmObject {
         this.memo = memo;
     }
 
-    public String getImageUri() {
-        return imageUri;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
-    public String getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 
@@ -59,19 +55,23 @@ public class Photo extends RealmObject {
     }
 
     public static class Builder {
-        private void setExifInfo(Photo photo) throws IOException {
-            ExifInterface exifInterface = new ExifInterface(photo.getImageUri());
-            photo.setLatitude(exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE));
-            photo.setLongitude(exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
-            photo.setDate(exifInterface.getAttribute(ExifInterface.TAG_DATETIME));
-        }
-
-        public Photo build(String imageUri, String memo) throws IOException {
+        public Photo build(String imagePath, String memo) throws IOException {
             Photo photo = new Photo();
-            photo.setImageUri(imageUri);
+            photo.setImagePath(imagePath);
             photo.setMemo(memo);
             setExifInfo(photo);
             return photo;
+        }
+
+        private void setExifInfo(Photo photo) throws IOException {
+            ExifInterface exifInterface = new ExifInterface(photo.getImagePath());
+
+            float[] latlong = new float[2];
+            exifInterface.getLatLong(latlong);
+
+            photo.setLatitude(latlong[0]);
+            photo.setLongitude(latlong[1]);
+            photo.setDate(exifInterface.getAttribute(ExifInterface.TAG_DATETIME));
         }
     }
 }
