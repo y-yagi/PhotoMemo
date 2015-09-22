@@ -73,10 +73,6 @@ public class PhotoRegisterActivity extends AppCompatActivity {
             if (type.startsWith("image/")) {
                 handleSendImage(intent); // Handle single image being sent
             }
-        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
-            if (type.startsWith("image/")) {
-                handleSendMultipleImages(intent); // Handle multiple images being sent
-            }
         }
 
         mMemoView = (TextView)findViewById(R.id.memo);
@@ -140,13 +136,5 @@ public class PhotoRegisterActivity extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         imageView.setImageURI(imageUri);
         mImagePath = PathUtil.getPath(this,imageUri);
-    }
-
-    private void handleSendMultipleImages(Intent intent) {
-        ArrayList<Uri> imageUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-        // TODO: add proces
-        if (imageUris != null) {
-            // Update UI to reflect multiple images being shared
-        }
     }
 }
