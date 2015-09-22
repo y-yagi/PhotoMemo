@@ -111,6 +111,7 @@ public class PhotoRegisterActivity extends AppCompatActivity {
         mRealm.commitTransaction();
         showProgress(false);
         Toast.makeText(this, "データの登録が完了しました", Toast.LENGTH_LONG).show();
+        finish();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
