@@ -82,9 +82,6 @@ public class PhotoRegisterActivity extends AppCompatActivity {
             displayConfirmDialog();
             return;
         }
-
-        // DEBUG
-        Toast.makeText(this, "latitude:" + mPhoto.getLatitude() + " longitude: " + mPhoto.getLongitude(), Toast.LENGTH_LONG).show();
         completeRegister();
     }
 
