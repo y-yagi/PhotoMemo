@@ -102,6 +102,7 @@ public class PhotoRegisterActivity extends AppCompatActivity {
                 // DO nothing
             }
         });
+        builder.show();
     }
 
     private void completeRegister() {
