@@ -77,7 +77,6 @@ public class PhotoRegisterActivity extends AppCompatActivity {
         try {
             mPhoto = new Photo.Builder().build(mImagePath, memo);
         } catch(IOException exception) {
-            showProgress(false);
             Log.d(TAG, exception.getMessage());
             Toast.makeText(this, "画像ファイルが見つかりません", Toast.LENGTH_LONG).show();
             return;
@@ -94,7 +93,6 @@ public class PhotoRegisterActivity extends AppCompatActivity {
     }
 
     private void displayConfirmDialog() {
-        showProgress(false);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.register_confirm_msg);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -114,30 +112,8 @@ public class PhotoRegisterActivity extends AppCompatActivity {
         mRealm.beginTransaction();
         mRealm.copyToRealm(mPhoto);
         mRealm.commitTransaction();
-        showProgress(false);
         Toast.makeText(this, "データの登録が完了しました", Toast.LENGTH_LONG).show();
         finish();
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-        mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        mRegisterFormView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            }
-        });
-
-        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
     }
 
     private void handleSendImage(Intent intent) {
