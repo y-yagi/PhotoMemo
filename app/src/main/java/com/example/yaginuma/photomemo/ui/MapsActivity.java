@@ -16,8 +16,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmResults; import models.Photo; import utils.LogUtil;
-import utils.RealmBuilder;
+import io.realm.RealmResults; import com.example.yaginuma.photomemo.models.Photo; import com.example.yaginuma.photomemo.utils.LogUtil;
+import com.example.yaginuma.photomemo.utils.RealmBuilder;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 

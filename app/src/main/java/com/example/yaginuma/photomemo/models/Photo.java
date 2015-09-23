@@ -1,4 +1,4 @@
-package models;
+package com.example.yaginuma.photomemo.models;
 
 import android.media.ExifInterface;
 import java.io.IOException;

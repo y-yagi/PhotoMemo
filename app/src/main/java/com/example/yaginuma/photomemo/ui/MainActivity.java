@@ -16,10 +16,6 @@ import android.view.MenuItem;
 
 import com.example.yaginuma.photomemo.R;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import utils.RealmBuilder;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 

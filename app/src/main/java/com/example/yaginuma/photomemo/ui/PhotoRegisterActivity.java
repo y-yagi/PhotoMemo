@@ -1,14 +1,10 @@
 package com.example.yaginuma.photomemo.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,10 +17,10 @@ import com.example.yaginuma.photomemo.R;
 import java.io.IOException;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import models.Photo;
-import utils.LogUtil;
-import utils.PathUtil;
-import utils.RealmBuilder;
+import com.example.yaginuma.photomemo.models.Photo;
+import com.example.yaginuma.photomemo.utils.LogUtil;
+import com.example.yaginuma.photomemo.utils.PathUtil;
+import com.example.yaginuma.photomemo.utils.RealmBuilder;
 
 
 /**

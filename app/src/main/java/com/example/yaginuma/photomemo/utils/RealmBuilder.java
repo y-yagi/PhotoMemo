@@ -1,4 +1,4 @@
-package utils;
+package com.example.yaginuma.photomemo.utils;
 
 import android.content.Context;
 

@@ -1,4 +1,4 @@
-package utils;
+package com.example.yaginuma.photomemo.utils;
 
 /**
  * Created by yaginuma on 15/09/21.
