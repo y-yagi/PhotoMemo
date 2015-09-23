@@ -11,8 +11,8 @@ public class Photo extends RealmObject {
     private String memo;
     private String imagePath;
     private String date;
-    private float longitude;
-    private float latitude;
+    private float longitude = 0;
+    private float latitude = 0;
 
     public String getMemo() {
         return memo;
@@ -69,9 +69,11 @@ public class Photo extends RealmObject {
             float[] latlong = new float[2];
             exifInterface.getLatLong(latlong);
 
-            photo.setLatitude(latlong[0]);
-            photo.setLongitude(latlong[1]);
-            photo.setDate(exifInterface.getAttribute(ExifInterface.TAG_DATETIME));
+            if (latlong != null) {
+                photo.setLatitude(latlong[0]);
+                photo.setLongitude(latlong[1]);
+                photo.setDate(exifInterface.getAttribute(ExifInterface.TAG_DATETIME));
+            }
         }
     }
 }

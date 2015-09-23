@@ -3,6 +3,8 @@ package com.example.yaginuma.photomemo.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.net.Uri;
@@ -34,6 +36,7 @@ public class PhotoRegisterActivity extends AppCompatActivity {
     private View mRegisterFormView;
     private Realm mRealm;
     private String mImagePath;
+    private Photo mPhoto;
 
     private static final String TAG = LogUtil.makeLogTag(PhotoRegisterActivity.class);
 
@@ -69,12 +72,10 @@ public class PhotoRegisterActivity extends AppCompatActivity {
     }
 
     private void attemptRegister() {
-        showProgress(true);
         String memo = ((TextView)findViewById(R.id.memo)).getText().toString();
-        Photo photo;
 
         try {
-            photo = new Photo.Builder().build(mImagePath, memo);
+            mPhoto = new Photo.Builder().build(mImagePath, memo);
         } catch(IOException exception) {
             showProgress(false);
             Log.d(TAG, exception.getMessage());
@@ -82,8 +83,36 @@ public class PhotoRegisterActivity extends AppCompatActivity {
             return;
         }
 
+        if (mPhoto.getLatitude() == 0 && mPhoto.getLongitude() == 0) {
+            displayConfirmDialog();
+            return;
+        }
+
+        // DEBUG
+        Toast.makeText(this, "latitude:" + mPhoto.getLatitude() + " longitude: " + mPhoto.getLongitude(), Toast.LENGTH_LONG).show();
+        completeRegister();
+    }
+
+    private void displayConfirmDialog() {
+        showProgress(false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.register_confirm_msg);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                completeRegister();
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // DO nothing
+            }
+        });
+    }
+
+    private void completeRegister() {
         mRealm.beginTransaction();
-        mRealm.copyToRealm(photo);
+        mRealm.copyToRealm(mPhoto);
         mRealm.commitTransaction();
         showProgress(false);
         Toast.makeText(this, "データの登録が完了しました", Toast.LENGTH_LONG).show();
