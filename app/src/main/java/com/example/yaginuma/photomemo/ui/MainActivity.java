@@ -91,7 +91,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             return true;
         } else if (id == R.id.nav_gallery) {
-
+            Intent intent = new Intent(this, PhotoListActivity.class);
+            startActivity(intent);
+            return true;
         } else if (id == R.id.nav_share) {
 
         }
