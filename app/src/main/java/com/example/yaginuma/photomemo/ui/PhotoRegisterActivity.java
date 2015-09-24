@@ -27,9 +27,6 @@ import com.example.yaginuma.photomemo.utils.RealmBuilder;
  * A login screen that offers login via email/password.
  */
 public class PhotoRegisterActivity extends AppCompatActivity {
-    private TextView mMemoView;
-    private View mProgressView;
-    private View mRegisterFormView;
     private Realm mRealm;
     private String mImagePath;
     private Photo mPhoto;
@@ -54,8 +51,6 @@ public class PhotoRegisterActivity extends AppCompatActivity {
             }
         }
 
-        mMemoView = (TextView)findViewById(R.id.memo);
-        mRegisterFormView = (View)findViewById(R.id.register_form);
         Button mRegisterButton = (Button) findViewById(R.id.register_button);
         mRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -63,8 +58,6 @@ public class PhotoRegisterActivity extends AppCompatActivity {
                 attemptRegister();
             }
         });
-
-        mProgressView = findViewById(R.id.login_progress);
     }
 
     private void attemptRegister() {
