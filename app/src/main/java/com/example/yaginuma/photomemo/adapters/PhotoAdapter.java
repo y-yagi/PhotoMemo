@@ -24,7 +24,6 @@ import io.realm.RealmResults;
  * Created by yaginuma on 15/09/25.
  */
 public class PhotoAdapter extends BaseAdapter {
-    private Context mContext;
     private LayoutInflater mLayoutInflater;
     private static class ViewHolder {
         public ImageView imageView;
@@ -33,7 +32,6 @@ public class PhotoAdapter extends BaseAdapter {
     private RealmResults<Photo> mPhotos;
 
     public PhotoAdapter(Context context) {
-        mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         RealmConfiguration realmConfiguration = RealmBuilder.getRealmConfiguration(context);
         Realm realm = RealmBuilder.getRealmInstance(realmConfiguration);
@@ -46,7 +44,7 @@ public class PhotoAdapter extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return null;
+        return mPhotos.get(position);
     }
 
     public long getItemId(int position) {
