@@ -44,11 +44,15 @@ public class PhotoListActivity extends AppCompatActivity {
         builder.setMessage(R.string.destroy_confirm_msg);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                Photo photo = (Photo)parent.getAdapter().getItem(position);
+                PhotoAdapter adaper = (PhotoAdapter)parent.getAdapter();
+                Photo photo = (Photo) adaper.getItem(position);
 
                 mRealm.beginTransaction();
                 photo.removeFromRealm();
                 mRealm.commitTransaction();
+
+                adaper.notifyDataSetChanged();
+
             }
         });
 
