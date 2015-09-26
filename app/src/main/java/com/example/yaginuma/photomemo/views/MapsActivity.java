@@ -70,4 +70,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_POSITION, DEFAULT_ZOOM));
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
+    }
 }

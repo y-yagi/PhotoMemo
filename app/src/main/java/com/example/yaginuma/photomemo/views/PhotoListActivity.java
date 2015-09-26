@@ -45,6 +45,7 @@ public class PhotoListActivity extends AppCompatActivity {
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Photo photo = (Photo)parent.getAdapter().getItem(position);
+
                 mRealm.beginTransaction();
                 photo.removeFromRealm();
                 mRealm.commitTransaction();
@@ -59,7 +60,9 @@ public class PhotoListActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private void destroy() {
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
     }
 }
