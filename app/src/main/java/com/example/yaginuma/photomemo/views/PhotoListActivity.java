@@ -1,4 +1,4 @@
-package com.example.yaginuma.photomemo.ui;
+package com.example.yaginuma.photomemo.views;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

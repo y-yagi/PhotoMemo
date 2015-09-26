@@ -1,4 +1,4 @@
-package com.example.yaginuma.photomemo.ui;
+package com.example.yaginuma.photomemo.views;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

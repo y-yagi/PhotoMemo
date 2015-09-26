@@ -1,4 +1,4 @@
-package com.example.yaginuma.photomemo.ui;
+package com.example.yaginuma.photomemo.views;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
