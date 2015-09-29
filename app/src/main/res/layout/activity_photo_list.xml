@@ -6,9 +6,10 @@
       android:orientation="vertical">
 
     <GridView
-          android:id="@+id/photos"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:numColumns="auto_fit"/>
+        android:id="@+id/photos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:verticalSpacing="15dp"
+        android:numColumns="auto_fit"/>
 
 </LinearLayout>
