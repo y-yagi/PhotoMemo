@@ -30,13 +30,14 @@ public class PhotoAdapter extends BaseAdapter {
         public TextView textView;
     }
     private RealmResults<Photo> mPhotos;
+    private RealmConfiguration mRealmConfiguration;
+    private Realm mRealm;
 
     public PhotoAdapter(Context context) {
         mLayoutInflater = LayoutInflater.from(context);
-        RealmConfiguration realmConfiguration = RealmBuilder.getRealmConfiguration(context);
-        Realm realm = RealmBuilder.getRealmInstance(realmConfiguration);
-        mPhotos = realm.where(Photo.class).findAll();
-
+        mRealmConfiguration = RealmBuilder.getRealmConfiguration(context);
+        mRealm = RealmBuilder.getRealmInstance(mRealmConfiguration);
+        mPhotos = mRealm.where(Photo.class).findAll();
     }
 
     public int getCount() {
@@ -49,6 +50,12 @@ public class PhotoAdapter extends BaseAdapter {
 
     public long getItemId(int position) {
         return position;
+    }
+
+    public void removeItem(int position) {
+        mRealm.beginTransaction();
+        ((Photo)getItem(position)).removeFromRealm();
+        mRealm.commitTransaction();
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
