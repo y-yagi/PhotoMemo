@@ -18,7 +18,7 @@ import com.example.yaginuma.photomemo.utils.RealmBuilder;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class PhotoListActivity extends AppCompatActivity {
+public class PhotoListActivity extends BaseActivity {
     private Realm mRealm;
 
     @Override
@@ -38,7 +38,9 @@ public class PhotoListActivity extends AppCompatActivity {
                 displayConfirmDialog(parent, v, position, id);
             }
         });
+        setNavigationView();
     }
+
     private void displayConfirmDialog(final AdapterView<?> parent, View v, final int position, long id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.destroy_confirm_msg);
