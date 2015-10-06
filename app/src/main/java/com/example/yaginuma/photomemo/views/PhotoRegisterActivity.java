@@ -3,6 +3,7 @@ package com.example.yaginuma.photomemo.views;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,15 +24,20 @@ import com.example.yaginuma.photomemo.models.Photo;
 import com.example.yaginuma.photomemo.utils.LogUtil;
 import com.example.yaginuma.photomemo.utils.PathUtil;
 import com.example.yaginuma.photomemo.utils.RealmBuilder;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 
 /**
  * A login screen that offers login via email/password.
  */
-public class PhotoRegisterActivity extends AppCompatActivity {
+public class PhotoRegisterActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
     private Realm mRealm;
     private String mImagePath;
     private Photo mPhoto;
+    private GoogleApiClient mGoogleApiClient;
 
     private static final String TAG = LogUtil.makeLogTag(PhotoRegisterActivity.class);
 
@@ -85,7 +91,7 @@ public class PhotoRegisterActivity extends AppCompatActivity {
         builder.setMessage(R.string.register_confirm_msg);
         builder.setPositiveButton(R.string.set_current_pos_msg, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                completeRegister();
+                setCurrentPosAndRegister();
             }
         });
 
@@ -106,10 +112,50 @@ public class PhotoRegisterActivity extends AppCompatActivity {
         finish();
     }
 
+    private void setCurrentPosAndRegister() {
+        buildGoogleApiClient();
+    }
+
     private void handleSendImage(Intent intent) {
         Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         imageView.setImageURI(imageUri);
         mImagePath = PathUtil.getPath(this,imageUri);
+    }
+
+    protected synchronized void buildGoogleApiClient() {
+        if (mGoogleApiClient != null) return;
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        if (location != null) {
+            mPhoto.setLatitude((float)location.getLatitude());
+            mPhoto.setLongitude((float)location.getLongitude());
+            completeRegister();
+        } else {
+            Toast.makeText(this, R.string.cannot_get_current_post, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void  onConnectionSuspended (int cause) {
+        Toast.makeText(this, R.string.unexpected_error_msg, Toast.LENGTH_LONG).show();
+        Log.e(TAG, "onConnectionSuspended cause: " + cause);
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Toast.makeText(this, R.string.unexpected_error_msg, Toast.LENGTH_LONG).show();
+        Log.e(TAG, "onConnectionFailed cause: " + connectionResult.toString());
     }
 }
