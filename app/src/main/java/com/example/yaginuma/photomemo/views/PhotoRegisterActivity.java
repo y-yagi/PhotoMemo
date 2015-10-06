@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -81,15 +83,15 @@ public class PhotoRegisterActivity extends AppCompatActivity {
     private void displayConfirmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.register_confirm_msg);
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.set_current_pos_msg, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 completeRegister();
             }
         });
 
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        builder.setNeutralButton(R.string.no_set_pos_msg, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // DO nothing
+                completeRegister();
             }
         });
         builder.show();
