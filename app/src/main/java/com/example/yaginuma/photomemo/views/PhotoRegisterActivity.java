@@ -114,6 +114,7 @@ public class PhotoRegisterActivity extends AppCompatActivity implements GoogleAp
 
     private void setCurrentPosAndRegister() {
         buildGoogleApiClient();
+        connectGoogleApiClient();
     }
 
     private void handleSendImage(Intent intent) {
@@ -131,6 +132,9 @@ public class PhotoRegisterActivity extends AppCompatActivity implements GoogleAp
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+    }
+
+    private void connectGoogleApiClient() {
         mGoogleApiClient.connect();
     }
 
