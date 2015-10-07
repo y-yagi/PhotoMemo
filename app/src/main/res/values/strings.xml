@@ -12,8 +12,12 @@
     <string name="action_photo_register">登録</string>
     <string name="error_field_required">This field is required</string>
     <string name="title_activity_maps">Map</string>
-    <string name="register_confirm_msg">位置情報が設定されてないですが宜しいですか?(地図上に画像が表示されません)(</string>
+    <string name="register_confirm_msg">位置情報が設定されていません\n(位置情報が無いと地図に画像が表示されません)</string>
     <string name="destroy_confirm_msg">画像を削除します。宜しいですか?</string>
+    <string name="set_current_pos_msg">現在位置を設定して登録する</string>
+    <string name="no_set_pos_msg">いまのまま登録する</string>
+    <string name="cannot_get_current_post">位置情報の取得が出来ませんでした</string>
+    <string name="unexpected_error_msg">予期せぬエラーが発生しました。再度処理を実行してみて下さい。</string>
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
