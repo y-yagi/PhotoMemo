@@ -19,4 +19,8 @@ public class PathUtil {
         cursor.close();
         return path;
     }
+
+    public static Uri stringToUri(String str) {
+        return Uri.parse(str);
+    }
 }
