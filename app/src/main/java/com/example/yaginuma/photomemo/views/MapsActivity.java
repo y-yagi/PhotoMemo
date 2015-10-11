@@ -1,6 +1,7 @@
 package com.example.yaginuma.photomemo.views;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 
 import com.example.yaginuma.photomemo.R;
 import com.example.yaginuma.photomemo.models.ClusterPhoto;
+import com.example.yaginuma.photomemo.utils.BitmapUtil;
 import com.example.yaginuma.photomemo.utils.PathUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -110,7 +112,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         @Override
         protected void onBeforeClusterItemRendered(ClusterPhoto photo, MarkerOptions markerOptions) {
-            mImageView.setImageURI(PathUtil.stringToUri(photo.imagePath));
+            Bitmap bitmap = BitmapUtil.decodeSampledBitmapFromFile(photo.imagePath, mDimension, mDimension);
+            mImageView.setImageBitmap(bitmap);
+
             Bitmap icon = mIconGenerator.makeIcon();
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(photo.memo);
         }
